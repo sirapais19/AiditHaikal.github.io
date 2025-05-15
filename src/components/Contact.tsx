@@ -1,12 +1,38 @@
 
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { MapPin, Phone, Mail, Linkedin, Github } from "lucide-react";
+import { MapPin, Phone, Mail, Linkedin, Github, Download } from "lucide-react";
+import { useEmail } from '@/hooks/use-email';
 
 const Contact = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const { sendEmail, loading } = useEmail();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      return;
+    }
+    
+    const success = await sendEmail({
+      name,
+      email,
+      message
+    });
+    
+    if (success) {
+      setName('');
+      setEmail('');
+      setMessage('');
+    }
+  };
+
   return (
     <section id="contact" className="py-24">
       <div className="container mx-auto px-6">
@@ -21,13 +47,26 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div className="animate-fade-in-up">
             <h3 className="text-xl font-semibold mb-6 text-primary">Send Me A Message</h3>
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <Input placeholder="Your Name" className="bg-muted/30" />
+                  <Input 
+                    placeholder="Your Name" 
+                    className="bg-muted/30" 
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
                 </div>
                 <div>
-                  <Input placeholder="Your Email" type="email" className="bg-muted/30" />
+                  <Input 
+                    placeholder="Your Email" 
+                    type="email" 
+                    className="bg-muted/30"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)} 
+                    required
+                  />
                 </div>
               </div>
               <div>
@@ -36,11 +75,14 @@ const Contact = () => {
               <div>
                 <Textarea 
                   placeholder="Your Message" 
-                  className="min-h-[150px] bg-muted/30" 
+                  className="min-h-[150px] bg-muted/30"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  required
                 />
               </div>
-              <Button size="lg" className="w-full sm:w-auto">
-                Send Message
+              <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={loading}>
+                {loading ? 'Sending...' : 'Send Message'}
               </Button>
             </form>
           </div>
@@ -104,8 +146,17 @@ const Contact = () => {
                 <Github className="h-5 w-5" />
               </a>
             </div>
+
+            <div className="mt-8">
+              <Button variant="default" size="lg" className="w-full flex items-center gap-2" asChild>
+                <a href="/resume.pdf" download="Aidit_RESUME.pdf">
+                  <Download className="h-5 w-5" />
+                  Download Resume
+                </a>
+              </Button>
+            </div>
             
-            <Card className="mt-8 bg-primary text-primary-foreground card-hover">
+            <Card className="mt-6 bg-primary text-primary-foreground card-hover">
               <CardHeader>
                 <CardTitle className="text-lg">Looking for Java OOP Development?</CardTitle>
                 <p className="text-sm text-primary-foreground/80 mt-2">

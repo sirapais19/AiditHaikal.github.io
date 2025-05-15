@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 import { cn } from '@/lib/utils';
 
 const Hero = () => {
@@ -25,8 +26,9 @@ const Hero = () => {
             </p>
             
             <div className="flex flex-wrap gap-4">
-              <Button size="lg" asChild>
-                <a href="/resume.pdf" download>
+              <Button size="lg" className="flex items-center gap-2" asChild>
+                <a href="/resume.pdf" download="Aidit_RESUME.pdf">
+                  <Download className="h-5 w-5" />
                   Download Resume
                 </a>
               </Button>
