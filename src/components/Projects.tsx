@@ -2,6 +2,8 @@
 import React from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Github } from "lucide-react";
 
 const Projects = () => {
   const projects = [
@@ -10,28 +12,32 @@ const Projects = () => {
       description: "Final Year Project: AI-driven vegetable scale with automated labeling and price calculations.",
       image: "https://images.unsplash.com/photo-1617957689233-207e3cd3c610?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
       category: "Academic",
-      tags: ["TensorFlow", "Computer Vision", "Python"]
+      tags: ["TensorFlow", "Computer Vision", "Python"],
+      github: "https://github.com/0xSofea/vegeScale.git"
     },
     {
       title: "Delivery System for Pet",
       description: "Java OOP-based application for pet delivery services with tracking capabilities.",
       image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
       category: "Freelance",
-      tags: ["Java", "OOP", "NetBeans"]
+      tags: ["Java", "OOP", "NetBeans"],
+      github: "https://github.com/sirapais19/Delivery-system-for-pet.git"
     },
     {
       title: "Car Rental System",
       description: "Complete management system for vehicle rentals, including booking and billing.",
       image: "https://images.unsplash.com/photo-1551043077-28868719d3c1?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
       category: "Freelance",
-      tags: ["Java", "OOP", "MySQL"]
+      tags: ["Java", "OOP", "MySQL"],
+      github: "https://github.com/sirapais19/Car-Rental.git"
     },
     {
       title: "Library Management System",
       description: "Comprehensive solution for library inventory, borrowing and user management.",
       image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
       category: "Freelance",
-      tags: ["Java", "OOP", "Database"]
+      tags: ["Java", "OOP", "Database"],
+      github: "https://github.com/sirapais19/LibraryManagementSystem.git"
     },
     {
       title: "The Party: Anytime, Anywhere",
@@ -64,7 +70,7 @@ const Projects = () => {
           {projects.map((project, index) => (
             <Card 
               key={index} 
-              className="overflow-hidden card-hover animate-fade-in-up" 
+              className="overflow-hidden card-hover animate-fade-in-up flex flex-col" 
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="h-48 overflow-hidden">
@@ -74,14 +80,33 @@ const Projects = () => {
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <CardHeader>
+              <CardHeader className="flex-1">
                 <div className="flex justify-between items-start mb-2">
                   <CardTitle>{project.title}</CardTitle>
                   <Badge variant="outline" className="bg-secondary/10 text-secondary border-secondary/20">
                     {project.category}
                   </Badge>
                 </div>
-                <CardDescription>{project.description}</CardDescription>
+                <CardDescription className="mb-4">{project.description}</CardDescription>
+                {project.github && (
+                  <div className="mt-auto">
+                    <a 
+                      href={project.github} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="block w-full"
+                    >
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="w-full bg-primary/5 hover:bg-primary/10 text-primary border-primary/20 hover:border-primary/30 hover:shadow-sm transition-all group"
+                      >
+                        <Github size={16} className="mr-1 group-hover:translate-x-0.5 transition-transform" />
+                        View on GitHub
+                      </Button>
+                    </a>
+                  </div>
+                )}
               </CardHeader>
               <CardFooter className="flex gap-2 flex-wrap">
                 {project.tags.map((tag, i) => (
